@@ -11,7 +11,7 @@ We want to continuously deploy this small service using a CI/CD pipeline.
 
 - the resulting artifact should be deployed to a container solution
  
-- the deployment should support horizontal scaling
+- the deployed service should be scalable horizontally 
 
 - short documentation of the setup. Also document why you chose a particular framework, service or technology
 
