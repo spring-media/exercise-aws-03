@@ -1,0 +1,65 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.1.RELEASE'
+	}
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+jar {
+	baseName = 'task'
+	version = '0.0.1-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+	jcenter()
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+sourceSets {
+    integrationTest {
+        java.srcDir project.file('src/integrationTest/java')
+        resources.srcDir project.file('src/integrationTest/resources')
+    }
+}
+
+dependencies {
+    integrationTestCompile project.sourceSets.main.output
+    integrationTestCompile project.configurations.testCompile
+    integrationTestCompile project.sourceSets.test.output
+    integrationTestRuntime project.configurations.testRuntime
+}
+
+task integrationTest(type: Test, group: 'verification', description: 'Runs the integration tests.') {
+    testClassesDir = project.sourceSets.integrationTest.output.classesDir
+    classpath = project.sourceSets.integrationTest.runtimeClasspath
+}
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test
+
+idea {
+    module {
+        testSourceDirs += project.file('src/integrationTest/java')
+        scopes.TEST.plus += [project.configurations.integrationTestCompile]
+        scopes.TEST.plus += [project.configurations.integrationTestRuntime]
+    }
+}
