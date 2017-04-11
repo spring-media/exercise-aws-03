@@ -29,7 +29,7 @@ We want to continuously deploy this small service using a CI/CD pipeline.
 
 - commit frequently so we can see how you have approached the problem
 
-####How to contribute your solution:
+# How to contribute your solution:
 
 1. Fork the repo
 2. Commit everything that you do in your fork
